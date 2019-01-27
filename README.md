@@ -1,10 +1,16 @@
-From the **Settings** page click **Request my Flickr data**. In a day or two you
+Flickr allows you to download your photos and metadata. Unfortunatley, the metadata
+is not stored along with the images as EXIF, XMP, IPTC or other standard format; instead
+it will be downloaded as a series of JSON files, one per image.
+
+This tool allows you to convert all these JSON files into a single CSV file according
+to the supplied mapping. The CSV file can then be used by [ExifTool](https://www.sno.phy.queensu.ca/~phil/exiftool/) to update image EXIF/XMP/whatever metadata.
+
+From the Flickr **Settings** page click **Request my Flickr data**. In a day or two you
 will receive an email with two links, one for the metadata archive and another for
 the image archive.
 
 Extract the two archives, which will create two directories, one containing metadata
 and another containing images.
-
 
 The process might look like this:
 
