@@ -161,15 +161,18 @@ def main(pattern):
     logger.debug("Loaded metadata %r", meta)
     # exported filenames have little common with metadata, look up by id
     file_id = meta["id"]
-    # here's to hoping that id is unique
-    img_file_name = glob.glob("%s/*%s*" % (img_dir, file_id))[0]
-    fields = [img_file_name]
-    for t in input_tags:
-      fields.append(get_property(meta, t))
-    logger.debug("Fields: %r", fields)
-    out_line = ",".join('"%s"' % s for s in fields)
-    logger.debug("Will print: %s", out_line)
-    print(out_line)
+    img_list = glob.glob("%s/*%s*" % (img_dir, file_id))
+    if img_list:
+      # here's to hoping that id is unique; if not, grab the "first" one
+      fields = [img_list[0]]
+      for t in input_tags:
+        fields.append(get_property(meta, t))
+      logger.debug("Fields: %r", fields)
+      out_line = ",".join('"%s"' % s for s in fields)
+      logger.debug("Will print: %s", out_line)
+      print(out_line)
+    else:
+      logger.debug("Image with id %s not found", file_id)
 
 
 if __name__ == "__main__":
