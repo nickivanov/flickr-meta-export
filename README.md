@@ -90,7 +90,7 @@ CSV file, and copy the file into a directory named after the Flickr album it bel
 
 It should run from the directory where image files have been extracted. 
 
-    /path/to/exiftool -csv=<CSV file name> -e jpg -e png .
+    /path/to/exiftool -csv=<CSV file name> -ext jpg -ext png .
 
 4. Separate images into albums.
 
@@ -98,7 +98,7 @@ Optionally you can now sort your images into directories based on the Flickr alb
 they were in. Note that if any of your images belongs to multiple albums on Flickr,
 only the first album will be used to set the image metadata in step 2 above.
 
-    /path/to/exiftool -'Directory<Album' -o %f.%e -e jpg -e png .
+    /path/to/exiftool -'Directory<Album' -o %f.%e -ext jpg -ext png .
 
 Note that this command will create a new subdirectory for each Flickr album; make sure 
 that you run it from the directory where you want these album subdirectories to 
