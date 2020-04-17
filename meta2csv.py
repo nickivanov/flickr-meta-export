@@ -56,6 +56,9 @@ if "DEBUG" in os.environ:
   logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger("meta2csv")
 
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+
 def get_element(obj, index):
   """Return the specified list element
   Arguments:
@@ -157,19 +160,22 @@ def main(pattern):
 
   # process each file
   for f in glob.glob(pattern):
-    meta = json.load(open(f))
-    logger.debug("Loaded metadata %r", meta)
-    # exported filenames have little common with metadata, look up by id
-    file_id = meta["id"]
-    # here's to hoping that id is unique
-    img_file_name = glob.glob("%s/*%s*" % (img_dir, file_id))[0]
-    fields = [img_file_name]
-    for t in input_tags:
-      fields.append(get_property(meta, t))
-    logger.debug("Fields: %r", fields)
-    out_line = ",".join('"%s"' % s for s in fields)
-    logger.debug("Will print: %s", out_line)
-    print(out_line)
+    try:
+      meta = json.load(open(f))
+      logger.debug("Loaded metadata %r", meta)
+      # exported filenames have little common with metadata, look up by id
+      file_id = meta["id"]
+      # here's to hoping that id is unique
+      img_file_name = glob.glob("%s/*%s*" % (img_dir, file_id))[0]
+      fields = [img_file_name]
+      for t in input_tags:
+        fields.append(get_property(meta, t))
+      logger.debug("Fields: %r", fields)
+      out_line = ",".join('"%s"' % s for s in fields)
+      logger.debug("Will print: %s", out_line)
+      print(out_line)
+    except IndexError:
+      eprint("No photo corresponding to " + f + " found, skipping...")
 
 
 if __name__ == "__main__":
